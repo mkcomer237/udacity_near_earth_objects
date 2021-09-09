@@ -22,3 +22,9 @@ for key, value in neo_db.name_dict.items():
     counter += 1 
     if counter >= 3:
         break
+
+
+# Test the methods for the DB 
+
+print(neo_db.get_neo_by_designation(887))
+print(neo_db.get_neo_by_name('Eros'))
