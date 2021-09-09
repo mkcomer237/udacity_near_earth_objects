@@ -71,13 +71,12 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-        # TODO: Use this object's attributes to return a human-readable string representation.
-        # The project instructions include one possibility. Peek at the __repr__
-        # method for examples of advanced string formatting.
-        return f"""A NearEarthObject with designation {self.designation!r}, 
-                   name {self.name!r}, 
-                   diameter {self.diameter:.3f}, and 
-                   hazardous status of {self.hazardous!r}"""
+        return ' '.join(f"""A NearEarthObject with designation {self.designation!r}, 
+                        name {self.name!r}, 
+                        diameter {self.diameter:.3f}, 
+                        hazardous status of {self.hazardous!r}, 
+                        and {len(self.approaches)} associated approaches
+                        """.split())
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
@@ -157,10 +156,10 @@ class CloseApproach:
         # TODO: Use this object's attributes to return a human-readable string representation.
         # The project instructions include one possibility. Peek at the __repr__
         # method for examples of advanced string formatting.
-        return f"""A CloseApproach object with hidden designation {self._designation!r}, 
-                   time {self.time_str!r}, 
-                   diameter {self.distance:.2f}, and 
-                   velocity of {self.velocity:.2f}"""
+        return ' '.join(f"""NEO {self._designation!r}, 
+                        with a diameter {self.distance:.2f}, 
+                        approached earth at {self.time_str!r} traveling at a 
+                        velocity of {self.velocity:.2f}""".split())
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
