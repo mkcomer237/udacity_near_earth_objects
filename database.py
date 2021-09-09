@@ -42,8 +42,15 @@ class NEODatabase:
         self._approaches = approaches
 
         # TODO: What additional auxiliary data structures will be useful?
+        # Add in a dictionary with the name as the lookup 
 
-        # TODO: Link together the NEOs and their close approaches.
+        # Link together the NEOs and their close approaches.
+        for approach in self._approaches:
+            # Add the neo object for each approach
+            approach.neo = neos[approach._designation]
+            # Add the approach itself to the neo object if involves 
+            # At the end of this loop, each neo will have all of its approaches inside 
+            self._neos[approach._designation].approaches.append(approach)
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
