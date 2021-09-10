@@ -28,3 +28,6 @@ for key, value in neo_db.name_dict.items():
 
 print(neo_db.get_neo_by_designation(887))
 print(neo_db.get_neo_by_name('Eros'))
+print(neo_db.get_neo_by_designation('2020 BS'))
+print(neo_db.get_neo_by_designation('2101'))
+print(neo_db.get_neo_by_designation('2102'))

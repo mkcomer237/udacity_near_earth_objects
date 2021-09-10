@@ -40,14 +40,15 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         # Assign arguments to the object's proprerties 
-        # and provide a default value if hte argument isn't passed
+        # and provide a default value if the argument isn't passed
         try: 
             self.designation = str(info['designation'])
         except(KeyError): 
-            self.designation = ''
+            self.designation = None
 
         try:
-            self.name = info['name']
+            if info['name'] == '': self.name = None
+            else: self.name = info['name']
         except(KeyError): 
             self.name = None
         
@@ -112,7 +113,7 @@ class CloseApproach:
         try: 
             self._designation = str(info['designation'])
         except(KeyError): 
-            self.designation = ''
+            self.designation = None
 
         try: 
             self.time = cd_to_datetime(info['time'])
