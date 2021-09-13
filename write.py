@@ -30,7 +30,7 @@ def write_to_csv(results, filename):
         approach_writer.writerow(fieldnames)
         for approach in results:
             print(approach.neo)
-            outlist = (approach.time,
+            outlist = (approach.time.strftime("%Y-%m-%d %H:%M"),
                        approach.distance,
                        approach.velocity,
                        approach.neo.designation,
@@ -54,7 +54,7 @@ def write_to_json(results, filename):
     # Format as a json like dictionary/list collection first 
     json_out = []
     for approach in results:
-        approach_dict = {"datetime_utc": str(approach.time),
+        approach_dict = {"datetime_utc": approach.time.strftime("%Y-%m-%d %H:%M"),
         "distance_au": approach.distance,
         "velocity_km_s": approach.velocity,
         "neo": {
