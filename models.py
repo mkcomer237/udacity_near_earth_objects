@@ -14,8 +14,6 @@ A `NearEarthObject` maintains a collection of its close approaches, and a
 The functions that construct these objects use information extracted from the
 data files from NASA, so these objects should be able to handle all of the
 quirks of the data set, such as missing names and unknown diameters.
-
-You'll edit this file in Task 1.
 """
 from helpers import cd_to_datetime, datetime_to_str
 
@@ -35,10 +33,13 @@ class NearEarthObject:
     def __init__(self, **info):
         """Create a new `NearEarthObject`.
 
+        Assign arguments to the objects properties and supply a default value 
+        if the argument isn't passed.  For name also replace empty names
+        with None.  
+
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-        # Assign arguments to the object's proprerties 
-        # and provide a default value if the argument isn't passed
+
         try: 
             self.designation = str(info['designation'])
         except(KeyError): 
@@ -98,6 +99,10 @@ class CloseApproach:
     """
     def __init__(self, **info):
         """Create a new `CloseApproach`.
+
+        Pass all of the argments to, and give a default value if the 
+        argument is missing.  Also convert the NASA supplied datetime to 
+        a python datetime object.  
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
