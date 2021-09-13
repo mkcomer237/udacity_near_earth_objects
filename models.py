@@ -160,7 +160,8 @@ class CloseApproach:
         return ' '.join(f"""NEO {self._designation!r}, 
                         with a diameter {self.distance:.2f}, 
                         approached earth at {self.time_str!r} traveling at a 
-                        velocity of {self.velocity:.2f}""".split())
+                        velocity of {self.velocity:.2f} 
+                        at a distance of {self.distance:.2f}  """.split())
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
