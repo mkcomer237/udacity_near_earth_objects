@@ -17,6 +17,7 @@ iterator.
 You'll edit this file in Tasks 3a and 3c.
 """
 import operator
+import itertools
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -71,6 +72,18 @@ class AttributeFilter:
     def __repr__(self):
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
+class DateFilter(AttributeFilter):
+    # Define the get function to be used when we __call__ the instance as specified above
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+class NumFilter(AttributeFilter):
+    # Class for any of the numeric comparison filters 
+    @classmethod
+    def get(cls, approach, attr):
+        return getattr(approach, attr)
+
 
 def create_filters(date=None, start_date=None, end_date=None,
                    distance_min=None, distance_max=None,
@@ -107,7 +120,26 @@ def create_filters(date=None, start_date=None, end_date=None,
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    return ()
+    filters = []
+    # Add the operator as a second piece since we need that later
+    # Make this a list of (callable) objects to call for the given approach later 
+    # Only add arguments that are not None 
+    if date != None: filters.append(DateFilter(operator.eq, date)) 
+    if start_date != None: filters.append(DateFilter(operator.ge, start_date)) 
+    if end_date != None: filters.append(DateFilter(operator.le, end_date))
+    #if distance_min != None: filters.append(NumFilter(operator.le, distance_min))
+    #filters['date'] = (date, operator.eq)
+    #filters['start_date'] = start_date
+    #filters['end_date'] = end_date
+    #filters['distance_min'] = distance_min
+    #filters['distance_max'] = distance_max
+    #filters['velocity_min'] = velocity_min
+    #filters['velocity_max'] = velocity_max   
+    #filters['diameter_min'] = diameter_min
+    #filters['diameter_max'] = diameter_max
+    #filters['hazardous'] = hazardous
+    print(filters)
+    return filters
 
 
 def limit(iterator, n=None):
@@ -120,4 +152,7 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # TODO: Produce at most `n` values from the given iterator.
-    return iterator
+    if n == 0 or n is None:
+        return iterator 
+    else:
+        return itertools.islice(iterator, n)
