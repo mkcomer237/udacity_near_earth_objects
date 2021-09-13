@@ -91,8 +91,8 @@ class NeoFilter(AttributeFilter):
         super().__init__(op, value)
         self.attr = attr  
     
-    def get(cls, approach):
-        return getattr(approach.neo, cls.attr)
+    def get(self, approach):
+        return getattr(approach.neo, self.attr)
 
 
 def create_filters(date=None, start_date=None, end_date=None,
@@ -129,7 +129,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
     filters = []
     # Add the operator as a second piece since we need that later
     # Make this a list of (callable) objects to call for the given approach later 
@@ -144,7 +143,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     if diameter_min != None: filters.append(NeoFilter(operator.ge, diameter_min, 'diameter'))
     if diameter_max != None: filters.append(NeoFilter(operator.le, diameter_max, 'diameter'))
     if hazardous != None: filters.append(NeoFilter(operator.eq, hazardous, 'hazardous'))
-    #print(filters)
     return filters
 
 
@@ -157,7 +155,6 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
     if n == 0 or n is None:
         return iterator 
     else:

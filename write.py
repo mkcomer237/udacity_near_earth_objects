@@ -29,7 +29,6 @@ def write_to_csv(results, filename):
         approach_writer = csv.writer(outfile)
         approach_writer.writerow(fieldnames)
         for approach in results:
-            print(approach.neo)
             outlist = (approach.time.strftime("%Y-%m-%d %H:%M"),
                        approach.distance,
                        approach.velocity,
