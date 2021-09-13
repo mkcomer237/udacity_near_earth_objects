@@ -7,8 +7,6 @@ write the data.
 These functions are invoked by the main module with the output of the `limit`
 function and the filename supplied by the user at the command line. The file's
 extension determines which of these functions is used.
-
-You'll edit this file in Part 4.
 """
 import csv
 import json
@@ -27,7 +25,10 @@ def write_to_csv(results, filename):
     fieldnames = ('datetime_utc', 'distance_au', 'velocity_km_s', 'designation', 'name', 'diameter_km', 'potentially_hazardous')
     with open(filename, 'w') as outfile:
         approach_writer = csv.writer(outfile)
+        # Write the header 
         approach_writer.writerow(fieldnames)
+        
+        # Write each approach as a row
         for approach in results:
             outlist = (approach.time.strftime("%Y-%m-%d %H:%M"),
                        approach.distance,
@@ -52,6 +53,7 @@ def write_to_json(results, filename):
     """
     # Format as a json like dictionary/list collection first 
     json_out = []
+    # Add each returned approach to the list as a nested dictionary object
     for approach in results:
         approach_dict = {"datetime_utc": approach.time.strftime("%Y-%m-%d %H:%M"),
         "distance_au": approach.distance,
@@ -65,6 +67,6 @@ def write_to_json(results, filename):
 
         json_out.append(approach_dict)
     
-    # Write to the file 
+    # Write list of dictionaries to the file as a json object
     with open(filename, mode='w') as outfile:
         json.dump(json_out, outfile) 
