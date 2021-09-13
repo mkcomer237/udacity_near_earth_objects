@@ -13,8 +13,6 @@ the supplied `CloseApproach`.
 
 The `limit` function simply limits the maximum number of values produced by an
 iterator.
-
-You'll edit this file in Tasks 3a and 3c.
 """
 import operator
 import itertools
@@ -71,27 +69,64 @@ class AttributeFilter:
     def __repr__(self):
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
+
 class DateFilter(AttributeFilter):
-    # Define the get function to be used when we __call__ the instance as specified above
+    """Custom subclass of AttributeFilter to filter on date of the approach."""
+
     def get(cls, approach):
+        """Extract the time attribute and convert it to a date
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return approach.time.date()
 
-class ApproachFilter(AttributeFilter):
-    # Class for any of the numeric comparison filters 
-    def __init__(self, op, value, attr):
-        super().__init__(op, value)
-        self.attr = attr  
-    
-    def get(cls, approach):
-        return getattr(approach, cls.attr)
 
-class NeoFilter(AttributeFilter):
-    # Class for any of the numeric comparison filters 
+class ApproachFilter(AttributeFilter):
+    """Custom subclass of AttributeFilter to filter on any non date approach attributes.""" 
     def __init__(self, op, value, attr):
+        """Super class initialization as well as a specified attribute.
+        
+        In addition to the standard initialization of the super class, 
+        take in the `attr` which represents the attribute to access from
+        the approach object.
+
+        :param attr: A string representing the attribute we want to access when
+        initializing this object.  
+        """
         super().__init__(op, value)
         self.attr = attr  
     
     def get(self, approach):
+        """Extract the attribute `attr` passed on initialization from the approach
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
+        return getattr(approach, self.attr)
+
+
+class NeoFilter(AttributeFilter):
+    """Custom subclass of AttributeFilter to filter on any of associated neo attributes.""" 
+    def __init__(self, op, value, attr):
+        """Super class initialization as well as a specified attribute.
+        
+        In addition to the standard initialization of the super class, 
+        take in the `attr` which represents the attribute to access from
+        the approach object.
+
+        :param attr: A string representing the attribute we want to access when
+        initializing this object.  
+        """
+        super().__init__(op, value)
+        self.attr = attr  
+    
+    def get(self, approach):
+        """Extract the attribute `attr` passed on initialization from the approach's neo object
+
+        :param approach: A `CloseApproach` on which to evaluate this filter.
+        :return: The value of an attribute of interest, comparable to `self.value` via `self.op`.
+        """
         return getattr(approach.neo, self.attr)
 
 
@@ -113,9 +148,10 @@ def create_filters(date=None, start_date=None, end_date=None,
     line (in particular, this means that the `--not-hazardous` flag results in
     `hazardous=False`, not to be confused with `hazardous=None`).
 
-    The return value must be compatible with the `query` method of `NEODatabase`
-    because the main module directly passes this result to that method. For now,
-    this can be thought of as a collection of `AttributeFilter`s.
+    This returns a variable length list of filter objects 
+    (DateFilter, ApproachFilter or NeoFilter) to the database.query function which, 
+    which calls each filter for each CloseApproach in the database to check if 
+    the approach matches the filters passed as arguments.  
 
     :param date: A `date` on which a matching `CloseApproach` occurs.
     :param start_date: A `date` on or after which a matching `CloseApproach` occurs.
@@ -127,7 +163,7 @@ def create_filters(date=None, start_date=None, end_date=None,
     :param diameter_min: A minimum diameter of the NEO of a matching `CloseApproach`.
     :param diameter_max: A maximum diameter of the NEO of a matching `CloseApproach`.
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
-    :return: A collection of filters for use with `query`.
+    :return: A list of filters for use with `query`.
     """
     filters = []
     # Add the operator as a second piece since we need that later
