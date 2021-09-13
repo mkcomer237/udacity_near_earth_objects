@@ -116,8 +116,12 @@ class NEODatabase:
             # yield only if the approach object matches the filters 
             match=True
             for filter in filters: 
-                if not filter(approach):
-                    match=False
+                try: 
+                    if not filter(approach):
+                        match=False
+                except(TypeError):
+                    print(filter)
+                    print(approach)
 
             if match:
                 yield approach

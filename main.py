@@ -219,7 +219,6 @@ def query(database, args):
     )
     # Query the database with the collection of filters.
     results = database.query(filters)
-    print('limit: ', args.limit)
     if not args.outfile:
         # Write the results to stdout, limiting to 10 entries if not specified.
         for result in limit(results, args.limit or 10):

@@ -15,6 +15,12 @@ for neo in neo_db._neos[0:3]:
 for approach in neo_db._approaches[0:3]:
     print(approach) 
 
+# Print specific approaches 
+for approach in neo_db._approaches:
+    if approach[3].startswith('2020-Dec-01 08:31'):
+        for num, val in enumerate(approach):
+            print(f"[{num}] " + cad['fields'][num] + ": ", val)
+
 
 counter = 0
 for key, value in neo_db.name_dict.items():
