@@ -26,6 +26,19 @@ def write_to_csv(results, filename):
     """
     fieldnames = ('datetime_utc', 'distance_au', 'velocity_km_s', 'designation', 'name', 'diameter_km', 'potentially_hazardous')
     # TODO: Write the results to a CSV file, following the specification in the instructions.
+    with open(filename, 'w') as outfile:
+        approach_writer = csv.writer(outfile)
+        approach_writer.writerow(fieldnames)
+        for approach in results:
+            print(approach.neo)
+            outlist = (approach.time,
+                       approach.distance,
+                       approach.velocity,
+                       approach.neo.designation,
+                       approach.neo.name,
+                       approach.neo.diameter,
+                       approach.neo.hazardous)
+            approach_writer.writerow(outlist)
 
 
 def write_to_json(results, filename):
