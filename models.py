@@ -30,6 +30,7 @@ class NearEarthObject:
     initialized to an empty collection, but eventually populated in the
     `NEODatabase` constructor.
     """
+
     def __init__(self, **info):
         """Create a new `NearEarthObject`.
 
@@ -40,7 +41,6 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the
         constructor.
         """
-
         try:
             self.designation = str(info['designation'])
         except(KeyError):
@@ -83,8 +83,7 @@ class NearEarthObject:
                         """.split())
 
     def __repr__(self):
-        """Return `repr(self)`, a computer-readable string representation of
-        this object."""
+        """Return `repr(self)`, a computer-readable string representation."""
         return (f"NearEarthObject(designation={self.designation!r}, ",
                 f"name={self.name!r}, ",
                 f"diameter={self.diameter:.2f}, hazardous={self.hazardous!r})")
@@ -103,6 +102,7 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
+
     def __init__(self, **info):
         """Create a new `CloseApproach`.
 
@@ -138,8 +138,7 @@ class CloseApproach:
 
     @property
     def time_str(self):
-        """Return a formatted representation of this `CloseApproach`'s
-        approach time.
+        """Format representation of this `CloseApproach`'s approach time.
 
         The value in `self.time` should be a Python `datetime` object. While a
         `datetime` object has a string representation, the default
@@ -161,8 +160,7 @@ class CloseApproach:
                         at a distance of {self.distance:.2f}  """.split())
 
     def __repr__(self):
-        """Return `repr(self)`, a computer-readable string representation of
-        this object."""
+        """Return `repr(self)`, a computer-readable string representation."""
         return (f"CloseApproach(time={self.time_str!r}, ",
                 f" distance={self.distance:.2f}, ",
                 f"velocity={self.velocity:.2f}, neo={self.neo!r})")

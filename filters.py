@@ -1,5 +1,4 @@
-"""Provide filters for querying close approaches and limit the generated
-results.
+"""Provide filters for querying close approaches and limit the results.
 
 The `create_filters` function produces a collection of objects
 that is used by the `query` method to generate a stream of `CloseApproach`
@@ -16,8 +15,8 @@ can override to fetch an attribute of interest fromthe supplied
 
 The `limit` function simply limits the maximum number of values
 produced by aniterator.
-
 """
+
 import operator
 import itertools
 
@@ -42,9 +41,9 @@ class AttributeFilter:
     custombehavior to fetch a desired attribute from the given
     `CloseApproach`.
     """
+
     def __init__(self, op, value):
-        """Construct a new `AttributeFilter` from an binary predicate and
-        a reference value.
+        """Construct a new `AttributeFilter` from binary and reference values.
 
         The reference value will be supplied as the second (right-hand
         side) argument to the operator function. For example, an
@@ -74,6 +73,7 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Create a representation of the Attribute object."""
         return f"""{self.__class__.__name__}
                     (op=operator.{self.op.__name__}, value={self.value})"""
 
@@ -82,7 +82,7 @@ class DateFilter(AttributeFilter):
     """Custom subclass of AttributeFilter to filter on date of the approach."""
 
     def get(cls, approach):
-        """Extract the time attribute and convert it to a date
+        """Extract the time attribute and convert it to a date.
 
         :param approach: A `CloseApproach` on which to evaluate this
         filter.
@@ -93,8 +93,8 @@ class DateFilter(AttributeFilter):
 
 
 class ApproachFilter(AttributeFilter):
-    """Custom subclass of AttributeFilter to filter on any non date approach
-    attributes."""
+    """Custom subclass of AttributeFilter for non date approach attributes."""
+
     def __init__(self, op, value, attr):
         """Super class initialization as well as a specified attribute.
 
@@ -104,13 +104,12 @@ class ApproachFilter(AttributeFilter):
 
         :param attr: A string representing the attribute we want to access
         when initializing this object.
-       """
+        """
         super().__init__(op, value)
         self.attr = attr
 
     def get(self, approach):
-        """Extract the attribute `attr` passed on initialization from
-        the approach.
+        """Extract the attribute `attr` passed on initialization.
 
         :param approach: A `CloseApproach` on which to evaluate this filter.
         :return: The value of an attribute of interest, comparable to
@@ -120,8 +119,8 @@ class ApproachFilter(AttributeFilter):
 
 
 class NeoFilter(AttributeFilter):
-    """Custom subclass of AttributeFilter to filter on any of associated neo
-    attributes."""
+    """Subclass of AttributeFilter to filter on associated attributes."""
+
     def __init__(self, op, value, attr):
         """Super class initialization as well as a specified attribute.
 
@@ -136,8 +135,7 @@ class NeoFilter(AttributeFilter):
         self.attr = attr
 
     def get(self, approach):
-        """Extract the attribute `attr` passed on initialization from the
-        approach's neo object
+        """Extract the attribute `attr` from the approach's neo object.
 
         :param approach: A `CloseApproach` on which to evaluate this filter.
         :return: The value of an attribute of interest, comparable to
